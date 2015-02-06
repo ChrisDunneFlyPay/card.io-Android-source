@@ -18,7 +18,6 @@ import android.graphics.Rect;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Vibrator;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -233,8 +232,6 @@ public final class CardIOActivity extends Activity {
     private static final int KEY_BTN_ID = 3;
 
     private static final float UIBAR_VERTICAL_MARGIN_DP = 15.0f;
-
-    private static final long[] VIBRATE_PATTERN = { 0, 70, 10, 40 };
 
     private static final int TOAST_OFFSET_Y = -75;
 
@@ -667,16 +664,6 @@ public final class CardIOActivity extends Activity {
 
     void onCardDetected(Bitmap detectedBitmap, DetectionInfo dInfo) {
         Log.d(TAG, "processDetections");
-
-        try {
-            Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-            vibrator.vibrate(VIBRATE_PATTERN, -1);
-        } catch (SecurityException e) {
-            Log.e(Util.PUBLIC_LOG_TAG,
-                    "Could not activate vibration feedback. Please add <uses-permission android:name=\"android.permission.VIBRATE\" /> to your application's manifest.");
-        } catch (Exception e) {
-            Log.w(Util.PUBLIC_LOG_TAG, "Exception while attempting to vibrate: ", e);
-        }
 
         mCardScanner.pauseScanning();
         mUIBar.setVisibility(View.INVISIBLE);
